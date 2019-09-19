@@ -10,7 +10,7 @@ module.exports={
         demo:resolve('../lib/demo')
     },
     output:{
-        filename:'[name].js',
+        filename:'[name].[chunkhash:8].js',
         path:resolve('../dist')
     },
     module:{
@@ -28,9 +28,9 @@ module.exports={
     },
     plugins:[
         new HtmlWebpackPlugin({
-           title:'demo',
+           title:'index',
            template:path.resolve(__dirname,'../template/demo.html'),
-           filename:'demo.html',
+           filename:'index.html',
           //  chunks:['showVNode','h'],
           //  excludeChunks:['index']
         })
