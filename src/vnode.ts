@@ -1,7 +1,7 @@
 import { VNODE_FLAGS } from './flags/vnode-flags'
 import { Component } from './component'
-import { Classes } from './modules/class'
-import { VNodeStyle } from './modules/style'
+import { Classes } from './patch/class'
+import { VNodeStyle } from './patch/style'
 
 export interface VNode {
   _isVNode: boolean
