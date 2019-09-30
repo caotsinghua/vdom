@@ -1,6 +1,3 @@
-import { type } from 'os'
-import { VNode } from '../vnode'
-
 /**
  * 解析class名
  */

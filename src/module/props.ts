@@ -15,7 +15,11 @@ export const patchProps = (elm: HTMLElement, prevProps: Props | null, nextProps:
   for (let key in newProps) {
     let cur = newProps[key],
       old = oldProps[key]
-    if (cur !== old && !domPropsRE.test(key) && elm[key] !== cur) {
+    // domPropsRE相关的只由patchAttr来处理，否则props和attr设置重复值会有覆盖问题
+    // if (cur !== old && !domPropsRE.test(key) && elm[key] !== cur) {
+    //   elm[key] = cur
+    // }
+    if (cur !== old && elm[key] !== cur) {
       elm[key] = cur
     }
   }
