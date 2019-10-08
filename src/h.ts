@@ -1,6 +1,6 @@
 import { VNode, Tag, VNodeData, Children, vnode } from './vnode'
 import { VNODE_FLAGS } from './flags/vnode-flags'
-import { Fragment, Portal } from './symbol'
+import { Fragment, Portal } from './vnode'
 import { Component } from './component'
 import { CHILDREN_FLAGS } from './flags/children_flags'
 

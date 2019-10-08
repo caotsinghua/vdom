@@ -4,17 +4,21 @@ import { Classes } from './module/class'
 import { VNodeStyle } from './module/style'
 import { On } from './module/event-listeners'
 import { CHILDREN_FLAGS } from './flags/children_flags'
-export type Tag = string | Function | Component | Symbol
-export type Children = Array<VNode> | VNode
+
+export const Portal = Symbol.for('portal')
+export const Fragment = Symbol.for('fragment')
+
+export type Tag = string | Function | Component | typeof Fragment | typeof Portal
+export type Children = Array<VNode> | VNode | string
 export interface VNode {
-  _isVNode: boolean
-  flags: VNODE_FLAGS
-  tag: Tag
-  data: VNodeData | undefined
-  children: Children
-  childFlags: CHILDREN_FLAGS
-  el: Node | undefined
-  key: string | number
+  _isVNode: boolean // 是否是vnode
+  flags: VNODE_FLAGS // 节点类型
+  tag: Tag // vnode类型
+  data: VNodeData | undefined // 数据(style,props...)
+  children: Children // 子节点
+  childFlags: CHILDREN_FLAGS // 子节点类型 (单节点，多节点...)
+  el: Node | undefined // 挂载的真实dom
+  key: string | number // key
 }
 
 export interface VNodeData {
