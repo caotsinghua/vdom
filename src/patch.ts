@@ -89,6 +89,7 @@ export const patchData = (el, key, prevValue, nextValue) => {
     }
     default: {
       if (/^on/.test(key)) {
+        console.log('事件')
         if (prevValue) {
           el.removeEventListener(key.slice(2), prevValue)
         }
@@ -129,7 +130,7 @@ function patchElement(prevVNode, vnode, container) {
   const el = (vnode.el = prevVNode.el)
   console.log(el)
   const prevData = prevVNode.data
-  const nextData = vnode.data
+  const nextData = vnode.data || {}
 
   if (nextData) {
     // 存在新的data
@@ -206,7 +207,7 @@ function patchChildren(prevChildFlags, nextChildFlags, prevChildren, nextChildre
     }
     default: {
       // 前一子节点为多个节点
-      console.log('前一子节点为多个节点')
+      console.log('前一子节点为多个节点', prevChildren)
       switch (nextChildFlags) {
         case CHILDREN_FLAGS.SINGLE_VNODE: {
           // 新节点为单节点
@@ -440,7 +441,7 @@ function patchChildren(prevChildFlags, nextChildFlags, prevChildren, nextChildre
               const nextLeftLength = nextEnd - j + 1 // 新children中未处理的节点数
               const source = [] // 映射新children节点在旧children中的位置，计算出最长递增子序列
               for (let i = 0; i < nextLeftLength; i++) {
-                source.push[-1]
+                source.push(-1)
               }
               const prevStart = j
               const nextStart = j
@@ -476,20 +477,19 @@ function patchChildren(prevChildFlags, nextChildFlags, prevChildren, nextChildre
                   parentEl.removeChild(prevNode.el)
                 }
               }
-              // 需要移动
-              if (moved) {
-                const seq = lis(source)
-                // 递增子序列的最后一个值
-                let j = seq.length - 1
-                for (let i = nextLeftLength - 1; i >= 0; i--) {
-                  if (source[i] === -1) {
-                    // 新节点
-                    const pos = i + nextStart // 在nextChildren中的真实位置
-                    const nextNode = nextChildren[pos]
-                    const nextPos = pos + 1
-                    mount(nextNode, parentEl, false, nextPos < nextChildren.length ? nextChildren[nextPos].el : null)
-                  }
-                  if (i !== seq[j]) {
+              const seq = moved ? lis(source) : []
+              // 递增子序列的最后一个值
+              j = seq.length - 1
+              for (let i = nextLeftLength - 1; i >= 0; i--) {
+                if (source[i] === -1) {
+                  // 新节点
+                  const pos = i + nextStart // 在nextChildren中的真实位置
+                  const nextNode = nextChildren[pos]
+                  const nextPos = pos + 1
+                  mount(nextNode, parentEl, false, nextPos < nextChildren.length ? nextChildren[nextPos].el : null)
+                }
+                if (moved) {
+                  if (j < 0 || i !== seq[j]) {
                     // 该节点需要移动
                     // 找到 该节点的后一个节点(li-g)，将其插入到 li-g 节点的前面即可，由于 li-g 节点已经被挂载，所以我们能够拿到它对应的真实 DOM
                     const pos = i + nextStart

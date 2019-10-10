@@ -4,10 +4,8 @@ const resolve = dir => path.join(__dirname, dir)
 module.exports = {
   mode: 'development',
   entry: {
-    // 'index':resolve('../lib/index.ts'),
-    // 'showVNode':resolve('../lib/showVNode.js'),
-    // 'h':resolve('../lib/h.js')
-    demo: resolve('../demo/demo.ts')
+    demo: resolve('../demo/demo.ts'),
+    'test-element': resolve('../demo/test-element.ts')
   },
   resolve: {
     extensions: ['.js', '.ts', '.json']
@@ -33,9 +31,14 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'index',
       template: path.resolve(__dirname, '../template/demo.html'),
-      filename: 'index.html'
-      //  chunks:['showVNode','h'],
-      //  excludeChunks:['index']
+      filename: 'index.html',
+      chunks: ['demo']
+    }),
+    new HtmlWebpackPlugin({
+      title: 'test-element',
+      template: path.resolve(__dirname, '../template/demo.html'),
+      filename: 'test-element.html',
+      chunks: ['test-element']
     })
   ],
   stats: 'normal'

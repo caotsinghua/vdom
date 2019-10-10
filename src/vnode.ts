@@ -27,6 +27,7 @@ export interface VNodeData {
   on?: On
   key?: string | number
   target?: string
+  [key: string]: any
 }
 
 export function vnode(
@@ -37,7 +38,8 @@ export function vnode(
   childFlags: CHILDREN_FLAGS,
   el: Node | undefined
 ): VNode {
-  const key = data.key ? data.key : undefined
+  const key = data && data.key ? data.key : undefined
+  console.log(key)
   return {
     _isVNode: true,
     tag,

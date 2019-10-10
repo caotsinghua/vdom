@@ -8,7 +8,17 @@ export function h(tag: Tag): VNode
 export function h(tag: Tag, data: VNodeData): VNode
 export function h(tag: Tag, children: Children): VNode
 export function h(tag: Tag, data: VNodeData, children: Children | string): VNode
-export function h(tag: Tag, data?: any, children?: any): VNode {
+export function h(tag: Tag, dataOrChildren?: any, children?: any): VNode {
+  let data = dataOrChildren
+  if (arguments.length === 2) {
+    if (typeof dataOrChildren === 'object' && !dataOrChildren._isVNode && !Array.isArray(dataOrChildren)) {
+      // 第二个参数是data
+      data = dataOrChildren
+    } else {
+      data = null
+      children = dataOrChildren
+    }
+  }
   /**
    * 检查节点的类型
    */
@@ -22,7 +32,7 @@ export function h(tag: Tag, data?: any, children?: any): VNode {
     tag = data && data.target // 表示目标挂载点
   } else {
     // 组件
-    if (tag instanceof Component) {
+    if (tag instanceof Component || 'render' in tag) {
       flags = tag.functional ? VNODE_FLAGS.COMPONENT_FUNCTIONAL : VNODE_FLAGS.COMPONENT_STATEFULL_NORMAL
     } else if (typeof tag === 'function') {
       flags =
@@ -31,6 +41,7 @@ export function h(tag: Tag, data?: any, children?: any): VNode {
           : VNODE_FLAGS.COMPONENT_FUNCTIONAL
     }
   }
+
   let childFlags: CHILDREN_FLAGS
   if (Array.isArray(children)) {
     const length = children.length
