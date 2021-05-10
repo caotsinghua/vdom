@@ -23,7 +23,7 @@
   "dependencies": {
     "@babel/preset-env": "^7.5.5",
     "cross-env": "^5.2.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "snabbdom": "^0.7.3",
     "webpack-merge": "^4.2.1"
   }
